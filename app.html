@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-	<meta charset="utf-8" />
-	<title>♫</title>
-	<meta name="viewport" content="maximum-scale=1,width=device-width,initial-scale=1" />
-	<style>
-		html, body, div { user-select: none; -webkit-user-select: none; }
-		.circle { margin: 0 auto; width: 40vh; height: 40vh; line-height: 40vh; border-radius: 40vh; font-size: 10vh; color: lightgray; }
-		.loading, .loading > div {
+    <meta charset="utf-8" />
+    <title>♫</title>
+    <meta name="viewport" content="maximum-scale=1,width=device-width,initial-scale=1" />
+    <style>
+        html, body, div { user-select: none; -webkit-user-select: none; }
+        .circle { margin: 0 auto; width: 40vh; height: 40vh; line-height: 40vh; border-radius: 40vh; font-size: 10vh; color: lightgray; }
+        .loading, .loading > div {
             position: relative;
             box-sizing: border-box;
         }
@@ -104,83 +104,100 @@
                 transform: scaleY(1);
             }
         }
-	</style>
+    </style>
 </head>
 <body style="text-align: center;">
-	<div id="playerbox" style="position: fixed; width: 100%; height: 70vh; top: 50%; left: 0; margin-top: -35vh;">
-		<audio id="music" src="" autoplay="true" style="margin: 0 auto; display: none;"></audio>
-		<div id="load" class="circle" style="cursor: not-allowed; background: whitesmoke; border: 1vh solid whitesmoke; display: block;">☕</div>
-		<div id="play" class="circle" style="cursor: pointer; background: whitesmoke; border: 1vh solid whitesmoke; display: none; box-shadow: 0 0 3vh gray;">▷</div>
-		<div id="stop" class="circle" style="cursor: pointer; background: honeydew; border: 1vh solid darkseagreen; display: none; box-shadow: 0 0 3vh green; color: darkseagreen;"><!-- ▢  -->
-		    <div class="loading">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-		    </div>
-		</div>
-		<div id="next" style="cursor: pointer; margin: 0 auto; width: 20vh; height: 10vh; line-height: 10vh; font-size: 5vh; margin-top: 15vh; border: 1vh solid whitesmoke; border-radius: 1vh; background: whitesmoke; color: lightgray; box-shadow: 0 0 2vh gray;">➤➤</div>
-	</div>
-	<script>
-		var player = document.getElementById("music");
-		var newplay = function() {
-			document.getElementById("load").style.display = "block";
-			document.getElementById("play").style.display = "none";
-			document.getElementById("stop").style.display = "none";
-			player.src="/m/?" + Math.random();
-		}
-		newplay();
-		document.getElementById("play").addEventListener('click', function() {
-			player.play();
-			document.getElementById("play").style.display = "none";
-			document.getElementById("stop").style.display = "block";
-		}, false);
-		document.getElementById("stop").addEventListener('click', function() {
-			player.pause();
-			document.getElementById("play").style.display = "block";
-			document.getElementById("stop").style.display = "none";
-		}, false);
-		player.addEventListener('loadstart', function () {
-			document.getElementById("load").style.display = "none";
-			document.getElementById("play").style.display = "block";
-			document.getElementById("stop").style.display = "none";
-		}, false);
-		player.addEventListener('loadeddata', function () {
-			document.getElementById("load").style.display = "none";
-			document.getElementById("play").style.display = "block";
-			document.getElementById("stop").style.display = "none";
-		}, false);
-		player.addEventListener('loadedmetadata', function () {
-			document.getElementById("load").style.display = "none";
-			document.getElementById("play").style.display = "block";
-			document.getElementById("stop").style.display = "none";
-		}, false);
-		player.addEventListener('canplay', function() {
-			document.getElementById("load").style.display = "none";
-			document.getElementById("play").style.display = "block";
-			document.getElementById("stop").style.display = "none";
-		}, false);
-		player.addEventListener('playing', function() {
-			document.getElementById("play").style.display = "none";
-			document.getElementById("stop").style.display = "block";
-		}, false);
-		player.addEventListener('paused', function() {
-			document.getElementById("play").style.display = "block";
-			document.getElementById("stop").style.display = "none";
-		}, false);
-		player.addEventListener('ended', function() {
-			newplay();
-		}, false);
-		player.addEventListener('error', function() {
-			newplay();
-		}, false);
-		player.addEventListener('abort', function() {
-			newplay();
-		}, false);
-		document.getElementById("next").addEventListener('click', function() {
-			newplay();
-		}, false);
-	</script>
+    <div id="playerbox" style="position: fixed; width: 100%; height: 80vh; top: 50%; left: 0; margin-top: -40vh;">
+        <input id="query" type="text" style="width: 30vh; height: 5vh; margin-bottom: 5vh; outline: none; border: 0; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: grey; font-size: 3vh;" />
+        <audio id="music" autoplay="true" style="margin: 0 auto; display: none;"></audio>
+        <div id="load" class="circle" style="cursor: not-allowed; background: whitesmoke; border: 1vh solid whitesmoke; display: block;">☕</div>
+        <div id="play" class="circle" style="cursor: pointer; background: whitesmoke; border: 1vh solid lightgray; display: none; box-shadow: 0 0 3vh darkgray;">▷</div>
+        <div id="stop" class="circle" style="cursor: pointer; background: honeydew; border: 1vh solid darkseagreen; display: none; box-shadow: 0 0 3vh green; color: darkseagreen;"><!-- ▢  -->
+            <div class="loading">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            </div>
+        </div>
+        <div id="info" style="height: 15vh; line-height: 15vh; color: grey; font-size: 3vh; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></div>
+        <div id="next" style="cursor: pointer; margin: 0 auto; width: 20vh; height: 10vh; line-height: 10vh; font-size: 5vh; border: 1vh solid whitesmoke; border-radius: 1vh; background: whitesmoke; color: lightgray; box-shadow: 0 0 2vh gray;">➤➤</div>
+    </div>
+    <script>
+        var player = document.getElementById("music");
+        var info = document.getElementById("info");
+        var newplay = function() {
+            document.getElementById("load").style.display = "block";
+            document.getElementById("play").style.display = "none";
+            document.getElementById("stop").style.display = "none";
+            var q = document.getElementById("query").value;
+            //player.src="/m/?q=" + q + "&" + Math.random();
+            var request = new Request("/m/?q=" + q, {method: "GET"});
+                fetch(request).then((response) => response.json()).then((result) => {
+                console.log(result);
+                player.src = "/m/" + result.id + "?q=" + q + "&" + Math.random();
+                info.innerText = result.music;
+            }).catch((error) => {
+            });
+        }
+        newplay();
+        document.getElementById("play").addEventListener('click', function() {
+            player.play();
+            document.getElementById("play").style.display = "none";
+            document.getElementById("stop").style.display = "block";
+        }, false);
+        document.getElementById("stop").addEventListener('click', function() {
+            player.pause();
+            document.getElementById("play").style.display = "block";
+            document.getElementById("stop").style.display = "none";
+        }, false);
+        player.addEventListener('loadstart', function () {
+            document.getElementById("load").style.display = "none";
+            document.getElementById("play").style.display = "block";
+            document.getElementById("stop").style.display = "none";
+        }, false);
+        player.addEventListener('loadeddata', function () {
+            document.getElementById("load").style.display = "none";
+            document.getElementById("play").style.display = "block";
+            document.getElementById("stop").style.display = "none";
+        }, false);
+        player.addEventListener('loadedmetadata', function () {
+            document.getElementById("load").style.display = "none";
+            document.getElementById("play").style.display = "block";
+            document.getElementById("stop").style.display = "none";
+        }, false);
+        player.addEventListener('canplay', function() {
+            document.getElementById("load").style.display = "none";
+            document.getElementById("play").style.display = "block";
+            document.getElementById("stop").style.display = "none";
+        }, false);
+        player.addEventListener('playing', function() {
+            document.getElementById("play").style.display = "none";
+            document.getElementById("stop").style.display = "block";
+        }, false);
+        player.addEventListener('paused', function() {
+            document.getElementById("play").style.display = "block";
+            document.getElementById("stop").style.display = "none";
+        }, false);
+        player.addEventListener('ended', function() {
+            newplay();
+        }, false);
+        player.addEventListener('error', function() {
+            newplay();
+        }, false);
+        //player.addEventListener('abort', function() {
+        //    newplay();
+        //}, false);
+        document.getElementById("next").addEventListener('click', function() {
+            newplay();
+        }, false);
+        document.getElementById("query").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("next").click();
+            }
+        });
+    </script>
 </body>
 </html>
