@@ -1,7 +1,7 @@
-# music server for self
+# music player and server for self hosting
 
-## 1. pip install bottle
-## 2. python app.py
-## 3. put mp3 files in music dir
+1. install python & `pip install bottle`
+2. run `python app.py`
+3. put `xxx.mp3` into `[music]` dir
 
-## done! enjoy music with http://127.0.0.1:8787
+Congratulations! Enjoy music with http://127.0.0.1:8787
