@@ -5,199 +5,489 @@
     <title>♫</title>
     <meta name="viewport" content="maximum-scale=1,width=device-width,initial-scale=1" />
     <style>
+        html, body { height: 100%; min-height: 100%; margin: 0; padding: 0; }
         html, body, div { user-select: none; -webkit-user-select: none; }
-        .circle { margin: 0 auto; width: 40vh; height: 40vh; line-height: 40vh; border-radius: 40vh; font-size: 10vh; color: lightgray; }
-        .loading, .loading > div {
-            position: relative;
-            box-sizing: border-box;
-        }
-        .loading {
-            display: block;
-            width: 40vh;
-            height: 40vh;
-            text-align: center;
-            color: darkseagreen;
-            line-height: 40vh;
-        }
-        .loading.la-dark {
-            color: #333;
-        }
-        .loading > div {
-            display: inline-block;
-            float: none;
-            background-color: currentColor;
-            border: 0 solid currentColor;
-        }
-        .loading > div {
-            width: 4px;
-            height: 32px;
-            margin: 2px;
-            margin-top: 0;
-            margin-bottom: 0;
-            border-radius: 0;
-            animation-name: line-scale-party;
-            animation-iteration-count: infinite;
-        }
-        .loading > div:nth-child(1) {
-            animation-duration: 0.64s;
-            animation-delay: -0.34s;
-        }
-        .loading > div:nth-child(2) {
-            animation-duration: 0.93s;
-            animation-delay: -0.48s;
-        }
-        .loading > div:nth-child(3) {
-            animation-duration: 0.64s;
-            animation-delay: -0.66s;
-        }
-        .loading > div:nth-child(4) {
-            animation-duration: 1.2s;
-            animation-delay: -0.46s;
-        }
-        .loading > div:nth-child(5) {
-            animation-duration: 1.11s;
-            animation-delay: -0.36s;
-        }
-        .loading.la-sm {
-            width: 20px;
-            height: 16px;
-        }
-        .loading.la-sm > div {
-            width: 2px;
-            height: 16px;
-            margin: 1px;
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        .loading.la-2x {
-            width: 80px;
-            height: 64px;
-        }
-        .loading.la-2x > div {
-            width: 8px;
-            height: 64px;
-            margin: 4px;
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        .loading.la-3x {
-            width: 120px;
-            height: 96px;
-        }
-        .loading.la-3x > div {
-            width: 12px;
-            height: 96px;
-            margin: 6px;
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        @keyframes line-scale-party {
-            0% {
-                transform: scaleY(1);
+        body { background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: contain; background-position: center center; text-align: center; background: black; }
+        #playerbox { position: fixed; backdrop-filter: blur(1vh); border-radius: 1vh; width: 40vh; height: 80vh; top: 50%; left: 50%; margin-top: -40vh; margin-left: -20vh; box-sizing: border-box; }
+        #query { width: 32vh; height: 10vh; line-height: 10vh; margin-top: 4vh; outline: none; background: none; border: 1px solid lightgray; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: white; font-size: 3vh; box-sizing: border-box; }
+        ::placeholder { color: lightgray; font-size: 5vh; }
+        #mode { width: 32vh; height: 10vh; line-height: 10vh; display: block; margin: 0 auto; text-align: center; text-align-last: center; border: 0; appearance: none; outline: none; background: none; color: lightgray; font-size: 5vh; box-sizing: border-box; cursor: pointer; overflow: hidden; }
+        #modebar { width: 70vh; height: 10vh; line-height: 10vh; display: block; margin-left: -19vh; }
+        .modelist { display: inline-block; width: 14vh; float: left; color: dimgray; font-size: 3vh; }
+        .modeselect { color: lightgray; font-size: 5vh; }
+        #music { margin: 0 auto; display: none; height: 0; }
+        #circle { margin: 0 auto; width: 32vh; height: 32vh; line-height: 32vh; border-radius: 32vh; font-size: 8vh; color: lightgray; background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: cover; background-position: center center; border: 0.1vh solid lightgray; display: block; box-shadow: 0 0 2vh darkgray; box-sizing: border-box; outline: none; }
+        .stop { border-color: green!important; box-shadow: 0 0 2vh darkseagreen!important; }
+        #infoline { margin: 0 auto; width: 30vh; height: 6vh; line-height: 6vh; color: white; font-size: 3vh; overflow: hidden; white-space: nowrap; box-sizing: border-box; position: absolute; left: 50%; margin-left: -15vh; top: 50%; margin-top: -3vh; cursor: pointer; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
+        #info { display: inline-block; }
+        #likeandlove { margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; font-size: 5vh; box-sizing: border-box; }
+        #like { cursor: pointer; margin: 0 auto; width: 14vh; height: 10vh; line-height: 10vh; font-size: 5vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; }
+        #love { cursor: pointer; margin: 0 auto; width: 14vh; height: 10vh; line-height: 10vh; font-size: 5vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; }
+        #next { cursor: pointer; margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; margin-bottom: 4vh; font-size: 5vh; border: 1px solid lightgray; border-radius: 1vh; background: none; color: lightgray; box-shadow: 0 0 2vh gray; box-sizing: border-box; }
+        .like, .love { color: red!important; }
+        .unlike, .unlove { color: lightgray!important; }
+        .circlerotate { animation: rotateright 10s linear infinite; animation-play-state: paused; }
+        @keyframes rotateright {
+            from {
+                transform: rotate(0deg);
             }
-
-            50% {
-                transform: scaleY(0.3);
-            }
-
-            100% {
-                transform: scaleY(1);
+            to {
+                transform: rotate(360deg);
             }
         }
+        #passwordbox { position: absolute; top:0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(3vh); display: none; }
+        #password { position: absolute; top: 50%; margin-top: -5vh; left: 50%; margin-left: -16vh; width: 32vh; height: 10vh; line-height: 10vh; outline: none; background: none; border: 1px solid lightgray; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: white; font-size: 3vh; box-sizing: border-box; }
     </style>
 </head>
-<body style="text-align: center;">
-    <div id="playerbox" style="position: fixed; width: 100%; height: 80vh; top: 50%; left: 0; margin-top: -40vh;">
-        <input id="query" type="text" style="width: 30vh; height: 5vh; margin-bottom: 5vh; outline: none; border: 0; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: grey; font-size: 3vh;" />
-        <audio id="music" autoplay="true" style="margin: 0 auto; display: none;"></audio>
-        <div id="load" class="circle" style="cursor: not-allowed; background: whitesmoke; border: 1vh solid whitesmoke; display: block;">☕</div>
-        <div id="play" class="circle" style="cursor: pointer; background: whitesmoke; border: 1vh solid lightgray; display: none; box-shadow: 0 0 3vh darkgray;">▷</div>
-        <div id="stop" class="circle" style="cursor: pointer; background: honeydew; border: 1vh solid darkseagreen; display: none; box-shadow: 0 0 3vh green; color: darkseagreen;"><!-- ▢  -->
-            <div class="loading">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            </div>
+<body>
+    <div id="playerbox">
+        <input id="query" type="text" placeholder="⌕" />
+        <div id="likeandlove">
+            <div id="like">✧</div>
+            <div id="love">✦</div>
         </div>
-        <div id="info" style="height: 15vh; line-height: 15vh; color: grey; font-size: 3vh; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></div>
-        <div id="next" style="cursor: pointer; margin: 0 auto; width: 20vh; height: 10vh; line-height: 10vh; font-size: 5vh; border: 1vh solid whitesmoke; border-radius: 1vh; background: whitesmoke; color: lightgray; box-shadow: 0 0 2vh gray;">➤➤</div>
+        <div id="circle"></div>
+        <div id="infoline">
+            <span id="info"></span>
+        </div>
+        <div id="mode"><div id="modebar">
+            <span class="modelist">✧</span>
+            <span class="modelist">✦</span>
+            <span class="modelist">✩</span>
+            <span class="modelist">✧</span>
+            <span class="modelist">✦</span>
+        </div></div>
+        <div id="next">⌘</div>
+        <audio id="music" autoplay="true"></audio>
     </div>
+    <div id="passwordbox">
+        <input id="password" type="password" placeholder="" />
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jshashes/1.0.8/hashes.min.js"></script>
     <script>
         var player = document.getElementById("music");
         var info = document.getElementById("info");
-        var newplay = function() {
-            document.getElementById("load").style.display = "block";
-            document.getElementById("play").style.display = "none";
-            document.getElementById("stop").style.display = "none";
-            var q = document.getElementById("query").value;
-            //player.src="/m/?q=" + q + "&" + Math.random();
-            var request = new Request("/m/?q=" + q, {method: "GET"});
-                fetch(request).then((response) => response.json()).then((result) => {
-                console.log(result);
-                player.src = "/m/" + result.id + "?q=" + q + "&" + Math.random();
-                info.innerText = result.music;
-            }).catch((error) => {
+        var circle = document.getElementById("circle");
+        var modemap = {"none": {"icon": "✩", "margin": "-19vh", "idx": 2}, "like": {"icon": "✧", "margin": "-33vh", "idx": 3}, "love": {"icon": "✦", "margin": "-5vh", "idx": 1}};
+        var imgreq;
+        var npreq;
+        var recent = [];
+        var getimg = function(w) {
+            if (imgreq != null) imgreq.abort();
+            imgreq = $.ajax({
+                type: "GET",
+                url: "/i?w=" + w + " 封面",
+                dataType: "json",
+                success: function(result) {
+                    var bgimg = result.bgimg;
+                    var icimg = result.icimg;
+                    if (bgimg != "") {
+                        var img = new Image();
+                        img.src = bgimg;
+                        img.onload = function () {
+                            document.body.style.backgroundImage = "url(" + bgimg + ")";
+                        }
+                    }
+                    if (icimg != "" && w == info.innerText) {
+                        var img = new Image();
+                        img.src = icimg;
+                        img.onload = function () {
+                            circle.style.backgroundImage = "url(" + icimg + ")";
+                        }
+                    } else {
+                        circle.style.backgroundImage = document.body.style.backgroundImage;
+                    }
+                },
+                error: function() {
+                    circle.style.backgroundImage = document.body.style.backgroundImage;
+                }
             });
         }
-        newplay();
-        document.getElementById("play").addEventListener('click', function() {
-            player.play();
-            document.getElementById("play").style.display = "none";
-            document.getElementById("stop").style.display = "block";
-        }, false);
-        document.getElementById("stop").addEventListener('click', function() {
+        var tooglemenu = function(sh) {
+            if (sh == "show") {
+                document.getElementById("query").style.visibility = "visible";
+                document.getElementById("mode").style.visibility = "visible";
+                document.getElementById("likeandlove").style.visibility = "visible";
+                document.getElementById("next").style.visibility = "visible";
+            } else {
+                document.getElementById("query").style.visibility = "hidden";
+                document.getElementById("mode").style.visibility = "hidden";
+                document.getElementById("likeandlove").style.visibility = "hidden";
+                document.getElementById("next").style.visibility = "hidden";
+            }
+        }
+        var animate = function() {
+            var infowidth = info.clientWidth;
+            var infolinewidth = document.getElementById("infoline").clientWidth;
+            var margin = infowidth - infolinewidth;
+            var drt = margin * 50;
+            if (margin > 8) {
+                $("#info").animate({marginLeft: "-" + margin + "px"}, {easing: "linear", duration: drt}).promise().done(function() {
+                    $("#info").animate({marginLeft: "0"}, {easing: "linear", duration: drt}).promise().done(function(){
+                        animate();
+                    });
+                });
+            } else {
+                info.style.marginLeft = "-4px";
+            }
+        }
+        var newplay = function(m) {
             player.pause();
-            document.getElementById("play").style.display = "block";
-            document.getElementById("stop").style.display = "none";
+            info.innerText = "";
+            $("#info").stop(true);
+            info.style.marginLeft = 0;
+            info.style.visibility = "hidden";
+            document.title = "♫";
+            window.history.replaceState("", "", "");
+            circle.innerText = "♨";
+            circle.style.backgroundImage = "url()";
+            circle.style.cursor = "not-allowed";
+            circle.classList.remove("play");
+            circle.classList.remove("stop");
+            circle.classList.add("load");
+            circle.classList.remove("circlerotate");
+            var q = m?m:document.getElementById("query").value;
+            var t = localStorage.getItem("mode");
+            var query = q?"?q=" + q:"?t=" + t;
+            //var request = new Request("/m/?q=" + q, {method: "GET"});
+            //fetch(request).then((response) => response.json()).then((result) => {
+            if (npreq != null) npreq.abort();
+            tooglemenu("hide");
+            npreq = $.ajax({
+                type: "post",
+                url: "/m/" + query,
+                data: {
+                    "p": localStorage.getItem("playing"),
+                    "recent": JSON.stringify(recent)
+                },
+                dataType: "json",
+                timeout: 10000,
+                success: function(result) {
+                    //console.log(result);
+                    tooglemenu("show");
+                    if (result.music) {
+                        player.src = "/m/" + result.id + query + "&" + Math.random();
+                        info.innerText = result.music;
+                        animate();
+                        document.getElementById("like").classList.remove("like");
+                        document.getElementById("like").classList.remove("unlike");
+                        document.getElementById("like").classList.add(result.like);
+                        document.getElementById("love").classList.remove("love");
+                        document.getElementById("love").classList.remove("unlove");
+                        document.getElementById("love").classList.add(result.love);
+                        document.title = result.music;
+                        localStorage.setItem("playing", result.music);
+                        if (recent.length == 0) {
+                            recent.push(result.music);
+                        } else if (result.music != recent[recent.length - 1]) {
+                            recent.push(result.music);
+                        }
+                        while (recent.length > 100) {
+                            recent.shift();
+                        }
+                        localStorage.setItem("recent", JSON.stringify(recent));
+                        if (q != m) {
+                            window.history.pushState("", "", "#" + result.music);
+                        }
+                        getimg(result.music);
+                    } else {
+                        circle.innerText = "✖";
+                    }
+                },
+                error: function() {
+                    newplay(q);
+                }
+            });
+        }
+        var init = function() {
+            var mode = (localStorage.getItem("mode") && (localStorage.getItem("mode") in modemap))?localStorage.getItem("mode"):Object.keys(modemap)[0];
+            document.getElementById("modebar").style.marginLeft = modemap[mode]["margin"];
+            document.getElementsByClassName("modelist")[modemap[mode]["idx"]].classList.add("modeselect");
+            document.getElementsByClassName("modelist")[modemap[mode]["idx"] - 1].classList.add("modeprev");
+            document.getElementsByClassName("modelist")[modemap[mode]["idx"] + 1].classList.add("modenext");
+            localStorage.setItem("mode", mode);
+            recent = localStorage.getItem("recent")?JSON.parse(localStorage.getItem("recent")):[];
+            localStorage.setItem("recent", JSON.stringify(recent));
+            var playing = localStorage.getItem("playing")?localStorage.getItem("playing"):"";
+            var url = window.location.href.split(window.location.host)[1];
+            if (url.indexOf("/#") == 0) {
+                var m = url.split("/#")[1];
+                newplay(m);
+            } else if (playing) {
+                newplay(playing);
+                window.history.pushState("", "", "#" + playing);
+            } else {
+                newplay();
+            }
+        }
+        window.onhashchange = function() {
+            init();
+        }
+        init();
+        circle.addEventListener("click", function() {
+            if (this.classList.contains("play")) {
+                player.play();
+                circle.style.cursor = "pointer";
+                circle.style.animationPlayState = "running";
+                circle.classList.remove("play");
+                circle.classList.remove("load");
+                circle.classList.add("stop");
+                circle.innerText = "";
+            } else if (this.classList.contains("stop")) {
+                player.pause();
+                circle.style.cursor = "pointer";
+                circle.style.animationPlayState = "paused";
+                circle.classList.remove("stop");
+                circle.classList.remove("load");
+                circle.classList.add("play");
+                circle.innerText = "";
+            }
         }, false);
-        player.addEventListener('loadstart', function () {
-            document.getElementById("load").style.display = "none";
-            document.getElementById("play").style.display = "block";
-            document.getElementById("stop").style.display = "none";
+        player.addEventListener("loadstart", function () {
+            circle.style.cursor = "pointer";
+            circle.style.animationPlayState = "paused";
+            circle.classList.remove("stop");
+            circle.classList.remove("load");
+            circle.classList.add("play");
+            circle.classList.add("circlerotate");
+            if (info.textContent != "") {
+                circle.innerText = "";
+                info.style.visibility = "visible";
+            }
         }, false);
-        player.addEventListener('loadeddata', function () {
-            document.getElementById("load").style.display = "none";
-            document.getElementById("play").style.display = "block";
-            document.getElementById("stop").style.display = "none";
+        player.addEventListener("loadedmetadata", function () {
+            circle.style.cursor = "pointer";
+            circle.style.animationPlayState = "paused";
+            circle.classList.remove("stop");
+            circle.classList.remove("load");
+            circle.classList.add("play");
+            circle.classList.add("circlerotate");
+            if (info.textContent != "") {
+                circle.innerText = "";
+                info.style.visibility = "visible";
+            }
         }, false);
-        player.addEventListener('loadedmetadata', function () {
-            document.getElementById("load").style.display = "none";
-            document.getElementById("play").style.display = "block";
-            document.getElementById("stop").style.display = "none";
+        player.addEventListener("loadeddata", function () {
+            circle.style.cursor = "pointer";
+            circle.style.animationPlayState = "paused";
+            circle.classList.remove("stop");
+            circle.classList.remove("load");
+            circle.classList.add("play");
+            circle.classList.add("circlerotate");
+            if (info.textContent != "") {
+                circle.innerText = "";
+                info.style.visibility = "visible";
+            }
         }, false);
-        player.addEventListener('canplay', function() {
-            document.getElementById("load").style.display = "none";
-            document.getElementById("play").style.display = "block";
-            document.getElementById("stop").style.display = "none";
+        player.addEventListener("canplay", function() {
+            circle.style.cursor = "pointer";
+            circle.style.animationPlayState = "paused";
+            circle.classList.remove("stop");
+            circle.classList.remove("load");
+            circle.classList.add("play");
+            circle.classList.add("circlerotate");
+            if (info.textContent != "") {
+                circle.innerText = "";
+                info.style.visibility = "visible";
+            }
         }, false);
-        player.addEventListener('playing', function() {
-            document.getElementById("play").style.display = "none";
-            document.getElementById("stop").style.display = "block";
+        player.addEventListener("playing", function() {
+            if (player.duration > 0 && !player.paused) {
+                circle.style.cursor = "pointer";
+                circle.style.animationPlayState = "running";
+                circle.classList.remove("play");
+                circle.classList.remove("load");
+                circle.classList.add("stop");
+                circle.innerText = "";
+                info.style.visibility = "visible";
+            }
         }, false);
-        player.addEventListener('paused', function() {
-            document.getElementById("play").style.display = "block";
-            document.getElementById("stop").style.display = "none";
+        player.addEventListener("paused", function() {
+            circle.style.cursor = "pointer";
+            circle.style.animationPlayState = "paused";
+            circle.classList.remove("stop");
+            circle.classList.remove("load");
+            circle.classList.add("play");
+            circle.innerText = "";
         }, false);
-        player.addEventListener('ended', function() {
+        player.addEventListener("ended", function() {
             newplay();
         }, false);
-        player.addEventListener('error', function() {
+        player.addEventListener("error", function() {
             newplay();
         }, false);
-        //player.addEventListener('abort', function() {
-        //    newplay();
-        //}, false);
-        document.getElementById("next").addEventListener('click', function() {
+        info.addEventListener("click", function() {
+            circle.click();
+        }, false);
+        document.getElementById("next").addEventListener("click", function() {
             newplay();
+        }, false);
+        document.body.addEventListener("dblclick", function(event) {
+            if (!document.getElementById("query").contains(event.target) && !document.getElementById("password").contains(event.target) && !document.getElementById("circle").contains(event.target) && $("#next").css("visibility") == "visible") {
+                document.getElementById("next").click();
+            }
+        }, false);
+        document.body.addEventListener("keypress", function(event) {
+            if (event.key === "Enter" && !document.getElementById("playerbox").contains(event.target) && !document.getElementById("password").contains(event.target) && $("#next").css("visibility") == "visible") {
+                document.getElementById("next").click();
+            } else if (event.key === " " && !document.getElementById("playerbox").contains(event.target) && !document.getElementById("password").contains(event.target)) {
+                document.getElementById("circle").click();
+            }
         }, false);
         document.getElementById("query").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 document.getElementById("next").click();
             }
-        });
+        }, false);
+        Array.from(document.getElementsByClassName("modelist")).forEach(
+            function(element, index, array) {
+                element.addEventListener("click", function(event) {
+                    var setmode = "none";
+                    var modetext = element.innerText;
+                    if (modetext == modemap["like"]["icon"]) {
+                        setmode = "like";
+                    } else if (modetext == modemap["love"]["icon"]) {
+                        setmode = "love";
+                    }
+                    localStorage.setItem("mode", setmode);
+                    var margin = "=0";
+                    if (element.classList.contains("modeprev")) {
+                        margin = "+=14vh";
+                    } else if (element.classList.contains("modenext")) {
+                        margin = "-=14vh";
+                    }
+                    if (document.getElementsByClassName("modeselect").length > 0) {
+                        document.getElementsByClassName("modeselect")[0].classList.remove("modeselect");
+                    }
+                    if (document.getElementsByClassName("modeprev").length > 0) {
+                        document.getElementsByClassName("modeprev")[0].classList.remove("modeprev");
+                    }
+                    if (document.getElementsByClassName("modenext").length > 0) {
+                        document.getElementsByClassName("modenext")[0].classList.remove("modenext");
+                    }
+                    $("#modebar").animate({marginLeft: margin}, 500).promise().done(function() {
+                        document.getElementById("modebar").style.marginLeft = modemap[setmode]["margin"];
+                        document.getElementsByClassName("modelist")[modemap[setmode]["idx"]].classList.add("modeselect");
+                        document.getElementsByClassName("modelist")[modemap[setmode]["idx"] - 1].classList.add("modeprev");
+                        document.getElementsByClassName("modelist")[modemap[setmode]["idx"] + 1].classList.add("modenext");
+                    });
+                });
+            }
+        );
+        var authandcilck = function(button) {
+            document.getElementById("passwordbox").style.display = "block";
+            document.getElementById("password").focus();
+            var handler = function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    var password = new Hashes.MD5().hex(document.getElementById("password").value);
+                    localStorage.setItem("password", password);
+                    document.getElementById("passwordbox").style.display = "none";
+                    document.getElementById(button).click();
+                    document.getElementById("password").removeEventListener("keypress", handler);
+                }
+            }
+            document.getElementById("password").addEventListener("keypress", handler);
+        }
+        document.getElementById("like").addEventListener("click", function() {
+            var n;
+            var thus = this;
+            var thusinfo = info;
+            var p = localStorage.getItem("password")?localStorage.getItem("password"):"";
+            if (!p) {
+                authandcilck("like");
+                return false;
+            }
+            if (thus.classList.contains("like")) {
+                n = "unlike";
+            } else {
+                n = "like";
+            }
+            tooglemenu("hide");
+            $.ajax({
+                type: "GET",
+                url: "/like",
+                dataType: "json",
+                data: {
+                    "m": info.innerText,
+                    "n": n,
+                    "p": p
+                },
+                success: function(result) {
+                    if (thusinfo == info && result.stat == 1) {
+                        if (thus.classList.contains("like")) {
+                            thus.classList.remove("like");
+                            thus.classList.add("unlike");
+                            document.getElementById("love").classList.remove("love");
+                            document.getElementById("love").classList.add("unlove");
+                        } else {
+                            thus.classList.remove("unlike");
+                            thus.classList.add("like");
+                        }
+                    } else if (result.stat == 2) {
+                        alert("");
+                    } else if (result.stat == 0) {
+                        authandcilck("like");
+                    }
+                },
+                complete: function() {
+                    tooglemenu("show");
+                }
+            });
+        }, false);
+        document.getElementById("love").addEventListener("click", function() {
+            var n;
+            var thus = this;
+            var thusinfo = info;
+            var p = localStorage.getItem("password")?localStorage.getItem("password"):"";
+            if (!p) {
+                authandcilck("love");
+                return false;
+            }
+            if (thus.classList.contains("love")) {
+                n = "unlove";
+            } else {
+                n = "love";
+            }
+            tooglemenu("hide");
+            $.ajax({
+                type: "GET",
+                url: "/love",
+                dataType: "json",
+                data: {
+                    "m": info.innerText,
+                    "n": n,
+                    "p": p
+                },
+                success: function(result) {
+                    if (thusinfo == info && result.stat == 1) {
+                        if (thus.classList.contains("love")) {
+                            thus.classList.remove("love");
+                            thus.classList.add("unlove");
+                        } else {
+                            thus.classList.remove("unlove");
+                            thus.classList.add("love");
+                            document.getElementById("like").classList.remove("unlike");
+                            document.getElementById("like").classList.add("like");
+                        }
+                    } else if (result.stat == 2) {
+                        alert("");
+                    } else if (result.stat == 0) {
+                        authandcilck("love");
+                    }
+                },
+                complete: function() {
+                    tooglemenu("show");
+                }
+            });
+        }, false);
+        document.getElementById("passwordbox").addEventListener("click", function(event) {
+            if (!document.getElementById("password").contains(event.target)) {
+                document.getElementById("passwordbox").style.display = "none";
+            }
+        }, false);
     </script>
 </body>
 </html>
