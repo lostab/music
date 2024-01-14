@@ -21,6 +21,7 @@ def icon():
 @bottle.route('/m/:m#.*#', method=['GET', 'POST'])
 def music(m):
     q = bottle.request.query.q.strip().lower()
+    s = bottle.request.query.s.strip().lower()
     t = bottle.request.query.t.strip()
     p = bottle.request.forms.p.strip()
     recent = bottle.request.forms.recent
@@ -50,7 +51,7 @@ def music(m):
                 if (not q and music in loves) or (q and q in music.lower()):
                     musics.append(music)
             else:
-                if not q or (q and q in music.lower()):
+                if not q or (q and s != 'true' and q in music.lower()) or (q and s == 'true' and q == music[:-4].lower()):
                     musics.append(music)
     if musics:
         if not m:
