@@ -8,7 +8,7 @@
         html, body { height: 100%; min-height: 100%; margin: 0; padding: 0; }
         html, body, div { user-select: none; -webkit-user-select: none; }
         body { background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: contain; background-position: center center; text-align: center; background: black; text-shadow: -1px 0 gray, 0 1px gray, 1px 0 gray, 0 -1px gray; }
-        #playerbox { position: fixed; backdrop-filter: blur(2vh); border-radius: 1vh; width: 40vh; height: 80vh; top: 50%; left: 50%; margin-top: -40vh; margin-left: -20vh; box-sizing: border-box; }
+        #playerbox { position: fixed; backdrop-filter: blur(2vh); border-radius: 1vh; width: 40vh; height: 80vh; top: 50%; left: 50%; margin-top: -40vh; margin-left: -20vh; box-sizing: border-box; display: none; }
         #query { width: 32vh; height: 10vh; line-height: 10vh; margin-top: 4vh; outline: none; background: none; border: 1px solid lightgray; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: white; font-size: 3vh; box-sizing: border-box; }
         ::placeholder { color: lightgray; font-size: 5vh; }
         .menu, .modelist { cursor: pointer; margin: 0 auto; width: 14vh; height: 10vh; line-height: 10vh; font-size: 3vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; float: left; }
@@ -44,7 +44,7 @@
         <input id="query" type="text" placeholder="⌕" />
         <div id="likeandlove"><div id="menubar">
             <span class="menu" id="like">✧</span>
-            <span class="menu" id="share">☰</span>
+            <span class="menu" id="share">⎘</span>
             <span class="menu" id="love">✦</span>
         </div></div>
         <div id="circle"></div>
@@ -148,20 +148,23 @@
             info.style.marginLeft = 0;
             info.style.visibility = "hidden";
             $("#info").stop(true);
-            document.title = "♫";
-            circle.innerText = "♨";
-            circle.style.cursor = "not-allowed";
-            circle.style.backgroundImage = "";
-            circle.classList.remove("play");
-            circle.classList.remove("stop");
-            circle.classList.add("load");
-            circle.classList.remove("circlerotate");
+            tooglemenu("hide");
+            $("#playerbox").fadeOut(500, function() {
+                document.title = "♫";
+                circle.innerText = "♨";
+                circle.style.cursor = "not-allowed";
+                circle.style.backgroundImage = "";
+                circle.classList.remove("play");
+                circle.classList.remove("stop");
+                circle.classList.add("load");
+                circle.classList.remove("circlerotate");
+                document.getElementById("share").style.color = "lightgray";
+            }).fadeIn(2000);
             var q = m?m:document.getElementById("query").value;
             var s = s?true:false;
             var t = localStorage.getItem("mode");
             var query = q?"?q=" + q + "&s=" + s:"?t=" + t;
             if (npreq != null) npreq.abort();
-            tooglemenu("hide");
             npreq = $.ajax({
                 type: "POST",
                 url: "/m/" + query,
@@ -172,35 +175,38 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function(result) {
-                    tooglemenu("show");
-                    if (result.music) {
-                        player.src = "/m/" + result.id + query + "&" + Math.random();
-                        info.innerText = result.music;
+                    $("#playerbox").fadeOut(500, function() {
+                        tooglemenu("show");
+                        if (result.music) {
+                            player.src = "/m/" + result.id + query + "&" + Math.random();
+                            info.innerText = result.music;
+                            document.getElementById("like").classList.remove("like");
+                            document.getElementById("like").classList.remove("unlike");
+                            document.getElementById("like").classList.add(result.like);
+                            document.getElementById("love").classList.remove("love");
+                            document.getElementById("love").classList.remove("unlove");
+                            document.getElementById("love").classList.add(result.love);
+                            document.title = result.music;
+                            localStorage.setItem("playing", result.music);
+                            if (recent.length == 0) {
+                                recent.push(result.music);
+                            } else if (result.music != recent[recent.length - 1]) {
+                                recent.push(result.music);
+                            }
+                            while (recent.length > 1000) {
+                                recent.shift();
+                            }
+                            localStorage.setItem("recent", JSON.stringify(recent));
+                            if (q != m) {
+                                window.history.pushState("", "", "#" + result.music);
+                            }
+                            getimg(result.music);
+                        } else {
+                            circle.innerText = "✖";
+                        }
+                    }).fadeIn(2000, function() {
                         animate();
-                        document.getElementById("like").classList.remove("like");
-                        document.getElementById("like").classList.remove("unlike");
-                        document.getElementById("like").classList.add(result.like);
-                        document.getElementById("love").classList.remove("love");
-                        document.getElementById("love").classList.remove("unlove");
-                        document.getElementById("love").classList.add(result.love);
-                        document.title = result.music;
-                        localStorage.setItem("playing", result.music);
-                        if (recent.length == 0) {
-                            recent.push(result.music);
-                        } else if (result.music != recent[recent.length - 1]) {
-                            recent.push(result.music);
-                        }
-                        while (recent.length > 1000) {
-                            recent.shift();
-                        }
-                        localStorage.setItem("recent", JSON.stringify(recent));
-                        if (q != m) {
-                            window.history.pushState("", "", "#" + result.music);
-                        }
-                        getimg(result.music);
-                    } else {
-                        circle.innerText = "✖";
-                    }
+                    });
                 },
                 error: function() {
                     newplay(q, s);
@@ -337,52 +343,58 @@
         }, false);
         document.body.addEventListener("keypress", function(event) {
             if (event.key === "Enter" && !document.getElementById("playerbox").contains(event.target) && !document.getElementById("password").contains(event.target) && $("#next").css("visibility") == "visible") {
+                event.preventDefault();
                 document.getElementById("next").click();
             } else if (event.key === " " && !document.getElementById("playerbox").contains(event.target) && !document.getElementById("password").contains(event.target)) {
+                event.preventDefault();
                 document.getElementById("circle").click();
             }
         }, false);
+        document.onkeydown = function(event) {
+            if (event.key === "Escape" || event.key === "Esc" || event.keyCode === 27) {
+                event.preventDefault();
+                document.getElementById("passwordbox").style.display = "none";
+            }
+        }
         document.getElementById("query").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 document.getElementById("next").click();
             }
         }, false);
-        Array.from(document.getElementsByClassName("modelist")).forEach(
-            function(element, index, array) {
-                element.addEventListener("click", function(event) {
-                    var setmode = "none";
-                    var modetext = element.innerText;
-                    if (modetext == modemap["like"]["icon"]) {
-                        setmode = "like";
-                    } else if (modetext == modemap["love"]["icon"]) {
-                        setmode = "love";
-                    }
-                    localStorage.setItem("mode", setmode);
-                    var margin = "=0";
-                    if (element.classList.contains("modeprev")) {
-                        margin = "+=14vh";
-                    } else if (element.classList.contains("modenext")) {
-                        margin = "-=14vh";
-                    }
-                    if (document.getElementsByClassName("modeselect").length > 0) {
-                        document.getElementsByClassName("modeselect")[0].classList.remove("modeselect");
-                    }
-                    if (document.getElementsByClassName("modeprev").length > 0) {
-                        document.getElementsByClassName("modeprev")[0].classList.remove("modeprev");
-                    }
-                    if (document.getElementsByClassName("modenext").length > 0) {
-                        document.getElementsByClassName("modenext")[0].classList.remove("modenext");
-                    }
-                    $("#modebar").animate({marginLeft: margin}, 500).promise().done(function() {
-                        document.getElementById("modebar").style.marginLeft = modemap[setmode]["margin"];
-                        document.getElementsByClassName("modelist")[modemap[setmode]["idx"]].classList.add("modeselect");
-                        document.getElementsByClassName("modelist")[modemap[setmode]["idx"] - 1].classList.add("modeprev");
-                        document.getElementsByClassName("modelist")[modemap[setmode]["idx"] + 1].classList.add("modenext");
-                    });
+        Array.from(document.getElementsByClassName("modelist")).forEach(function(element, index, array) {
+            element.addEventListener("click", function(event) {
+                var setmode = "none";
+                var modetext = element.innerText;
+                if (modetext == modemap["like"]["icon"]) {
+                    setmode = "like";
+                } else if (modetext == modemap["love"]["icon"]) {
+                    setmode = "love";
+                }
+                localStorage.setItem("mode", setmode);
+                var margin = "=0";
+                if (element.classList.contains("modeprev")) {
+                    margin = "+=14vh";
+                } else if (element.classList.contains("modenext")) {
+                    margin = "-=14vh";
+                }
+                if (document.getElementsByClassName("modeselect").length > 0) {
+                    document.getElementsByClassName("modeselect")[0].classList.remove("modeselect");
+                }
+                if (document.getElementsByClassName("modeprev").length > 0) {
+                    document.getElementsByClassName("modeprev")[0].classList.remove("modeprev");
+                }
+                if (document.getElementsByClassName("modenext").length > 0) {
+                    document.getElementsByClassName("modenext")[0].classList.remove("modenext");
+                }
+                $("#modebar").animate({marginLeft: margin}, 500).promise().done(function() {
+                    document.getElementById("modebar").style.marginLeft = modemap[setmode]["margin"];
+                    document.getElementsByClassName("modelist")[modemap[setmode]["idx"]].classList.add("modeselect");
+                    document.getElementsByClassName("modelist")[modemap[setmode]["idx"] - 1].classList.add("modeprev");
+                    document.getElementsByClassName("modelist")[modemap[setmode]["idx"] + 1].classList.add("modenext");
                 });
-            }
-        );
+            });
+        });
         var authandcilck = function(button) {
             document.getElementById("passwordbox").style.display = "block";
             document.getElementById("password").focus();
@@ -434,7 +446,7 @@
                             thus.classList.add("like");
                         }
                     } else if (result.stat == 2) {
-                        alert("");
+                        alert("👽");
                     } else if (result.stat == 0) {
                         authandcilck("like");
                     }
@@ -480,7 +492,7 @@
                             document.getElementById("like").classList.add("like");
                         }
                     } else if (result.stat == 2) {
-                        alert("");
+                        alert("👽");
                     } else if (result.stat == 0) {
                         authandcilck("love");
                     }
@@ -524,6 +536,7 @@
                 document.execCommand("copy");
                 document.body.removeChild(copyarea);
             }
+            document.getElementById("share").style.color = "green";
         }, false);
     </script>
 </body>
