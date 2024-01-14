@@ -7,22 +7,22 @@
     <style>
         html, body { height: 100%; min-height: 100%; margin: 0; padding: 0; }
         html, body, div { user-select: none; -webkit-user-select: none; }
-        body { background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: contain; background-position: center center; text-align: center; background: black; }
-        #playerbox { position: fixed; backdrop-filter: blur(1vh); border-radius: 1vh; width: 40vh; height: 80vh; top: 50%; left: 50%; margin-top: -40vh; margin-left: -20vh; box-sizing: border-box; }
+        body { background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: contain; background-position: center center; text-align: center; background: black; text-shadow: -1px 0 gray, 0 1px gray, 1px 0 gray, 0 -1px gray; }
+        #playerbox { position: fixed; backdrop-filter: blur(2vh); border-radius: 1vh; width: 40vh; height: 80vh; top: 50%; left: 50%; margin-top: -40vh; margin-left: -20vh; box-sizing: border-box; }
         #query { width: 32vh; height: 10vh; line-height: 10vh; margin-top: 4vh; outline: none; background: none; border: 1px solid lightgray; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: white; font-size: 3vh; box-sizing: border-box; }
         ::placeholder { color: lightgray; font-size: 5vh; }
-        #mode { width: 32vh; height: 10vh; line-height: 10vh; display: block; margin: 0 auto; text-align: center; text-align-last: center; border: 0; appearance: none; outline: none; background: none; color: lightgray; font-size: 5vh; box-sizing: border-box; cursor: pointer; overflow: hidden; }
+        .menu, .modelist { cursor: pointer; margin: 0 auto; width: 14vh; height: 10vh; line-height: 10vh; font-size: 3vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; float: left; }
+        #likeandlove { margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; font-size: 5vh; box-sizing: border-box; }
+        #menubar { width: 42vh; height: 10vh; line-height: 10vh; display: block; margin-left: -5vh; }
+        #like, #love { font-size: 5vh; }
+        #mode { margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; display: block; text-align: center; text-align-last: center; border: 0; appearance: none; outline: none; background: none; color: lightgray; font-size: 5vh; box-sizing: border-box; cursor: pointer; overflow: hidden; }
         #modebar { width: 70vh; height: 10vh; line-height: 10vh; display: block; margin-left: -19vh; }
-        .modelist { display: inline-block; width: 14vh; float: left; color: dimgray; font-size: 3vh; }
-        .modeselect { color: lightgray; font-size: 5vh; }
+        .modeselect { color: blue; font-size: 5vh; }
         #music { margin: 0 auto; display: none; height: 0; }
         #circle { margin: 0 auto; width: 32vh; height: 32vh; line-height: 32vh; border-radius: 32vh; font-size: 8vh; color: lightgray; background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: cover; background-position: center center; border: 0.1vh solid lightgray; display: block; box-shadow: 0 0 2vh darkgray; box-sizing: border-box; outline: none; }
         .stop { border-color: green!important; box-shadow: 0 0 2vh darkseagreen!important; }
         #infoline { margin: 0 auto; width: 30vh; height: 6vh; line-height: 6vh; color: white; font-size: 3vh; overflow: hidden; white-space: nowrap; box-sizing: border-box; position: absolute; left: 50%; margin-left: -15vh; top: 50%; margin-top: -3vh; cursor: pointer; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
         #info { display: inline-block; }
-        #likeandlove { margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; font-size: 5vh; box-sizing: border-box; }
-        #like { cursor: pointer; margin: 0 auto; width: 14vh; height: 10vh; line-height: 10vh; font-size: 5vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; }
-        #love { cursor: pointer; margin: 0 auto; width: 14vh; height: 10vh; line-height: 10vh; font-size: 5vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; }
         #next { cursor: pointer; margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; margin-bottom: 4vh; font-size: 5vh; border: 1px solid lightgray; border-radius: 1vh; background: none; color: lightgray; box-shadow: 0 0 2vh gray; box-sizing: border-box; }
         .like, .love { color: red!important; }
         .unlike, .unlove { color: lightgray!important; }
@@ -42,10 +42,11 @@
 <body>
     <div id="playerbox">
         <input id="query" type="text" placeholder="⌕" />
-        <div id="likeandlove">
-            <div id="like">✧</div>
-            <div id="love">✦</div>
-        </div>
+        <div id="likeandlove"><div id="menubar">
+            <span class="menu" id="like">✧</span>
+            <span class="menu" id="share">☰</span>
+            <span class="menu" id="love">✦</span>
+        </div></div>
         <div id="circle"></div>
         <div id="infoline">
             <span id="info"></span>
@@ -80,6 +81,7 @@
                 url: "/i?w=" + w + " 封面",
                 dataType: "json",
                 success: function(result) {
+                    circle.style.backgroundImage = "";
                     var bgimg = result.bgimg;
                     var icimg = result.icimg;
                     if (bgimg != "") {
@@ -89,18 +91,24 @@
                             document.body.style.backgroundImage = "url(" + bgimg + ")";
                         }
                     }
-                    if (icimg != "" && w == info.innerText) {
+                    if (icimg != "") {
                         var icimgcache = new Image();
                         icimgcache.src = icimg;
                         icimgcache.onload = function () {
-                            circle.style.backgroundImage = "url(" + icimg + ")";
+                            if (w == info.innerText) {
+                                circle.style.backgroundImage = "url(" + icimg + ")";
+                            }
                         }
-                    } else if (icimg == "") {
-                        circle.style.backgroundImage = document.body.style.backgroundImage;
+                    } else {
+                        if (w == info.innerText) {
+                            circle.style.backgroundImage = document.body.style.backgroundImage;
+                        }
                     }
                 },
                 error: function() {
-                    circle.style.backgroundImage = document.body.style.backgroundImage;
+                    if (w == info.innerText) {
+                        circle.style.backgroundImage = document.body.style.backgroundImage;
+                    }
                 }
             });
         }
@@ -110,11 +118,13 @@
                 document.getElementById("mode").style.visibility = "visible";
                 document.getElementById("likeandlove").style.visibility = "visible";
                 document.getElementById("next").style.visibility = "visible";
+                document.getElementById("playerbox").style.backdropFilter = "blur(2vh)";
             } else {
                 document.getElementById("query").style.visibility = "hidden";
                 document.getElementById("mode").style.visibility = "hidden";
                 document.getElementById("likeandlove").style.visibility = "hidden";
                 document.getElementById("next").style.visibility = "hidden";
+                document.getElementById("playerbox").style.backdropFilter = "blur(0)";
             }
         }
         var animate = function() {
@@ -129,29 +139,27 @@
                     });
                 });
             } else {
-                info.style.marginLeft = "-4px";
+                info.style.marginLeft = "-" + (margin / 2) + "px";
             }
         }
-        var newplay = function(m) {
+        var newplay = function(m, s) {
             player.pause();
             info.innerText = "";
-            $("#info").stop(true);
             info.style.marginLeft = 0;
             info.style.visibility = "hidden";
+            $("#info").stop(true);
             document.title = "♫";
-            window.history.replaceState("", "", "");
             circle.innerText = "♨";
-            circle.style.backgroundImage = "url()";
             circle.style.cursor = "not-allowed";
+            circle.style.backgroundImage = "";
             circle.classList.remove("play");
             circle.classList.remove("stop");
             circle.classList.add("load");
             circle.classList.remove("circlerotate");
             var q = m?m:document.getElementById("query").value;
+            var s = s?true:false;
             var t = localStorage.getItem("mode");
-            var query = q?"?q=" + q:"?t=" + t;
-            //var request = new Request("/m/?q=" + q, {method: "GET"});
-            //fetch(request).then((response) => response.json()).then((result) => {
+            var query = q?"?q=" + q + "&s=" + s:"?t=" + t;
             if (npreq != null) npreq.abort();
             tooglemenu("hide");
             npreq = $.ajax({
@@ -164,7 +172,6 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function(result) {
-                    //console.log(result);
                     tooglemenu("show");
                     if (result.music) {
                         player.src = "/m/" + result.id + query + "&" + Math.random();
@@ -196,7 +203,7 @@
                     }
                 },
                 error: function() {
-                    newplay(q);
+                    newplay(q, s);
                 }
             });
         }
@@ -213,9 +220,9 @@
             var url = window.location.href.split(window.location.host)[1];
             if (url.indexOf("/#") == 0) {
                 var m = url.split("/#")[1];
-                newplay(m);
+                newplay(m, true);
             } else if (playing) {
-                newplay(playing);
+                newplay(playing, true);
                 window.history.pushState("", "", "#" + playing);
             } else {
                 newplay();
@@ -486,6 +493,36 @@
         document.getElementById("passwordbox").addEventListener("click", function(event) {
             if (!document.getElementById("password").contains(event.target)) {
                 document.getElementById("passwordbox").style.display = "none";
+            }
+        }, false);
+        document.getElementById("share").addEventListener("click", function(event) {
+            var copycontent = window.location.href;
+            if (navigator.clipboard && navigator.permissions) {
+                navigator.permissions.query({name: "clipboard-write"}).then((result) => {
+                    if (result.state == "granted") {
+                        navigator.clipboard.writeText(copycontent);
+                    } else {
+                        var copyarea = document.createElement("textarea");
+                        copyarea.style.width = 0;
+                        copyarea.style.height = 0;
+                        copyarea.value = copycontent;
+                        copyarea.setAttribute("readonly", "readonly");
+                        document.body.append(copyarea);
+                        copyarea.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(copyarea);
+                    }
+                });
+            } else {
+                var copyarea = document.createElement("textarea");
+                copyarea.style.width = 0;
+                copyarea.style.height = 0;
+                copyarea.value = copycontent;
+                copyarea.setAttribute("readonly", "readonly");
+                document.body.append(copyarea);
+                copyarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(copyarea);
             }
         }, false);
     </script>
