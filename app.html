@@ -8,87 +8,82 @@
         html, body { height: 100%; min-height: 100%; margin: 0; padding: 0; }
         html, body, div { user-select: none; -webkit-user-select: none; }
         body { background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: contain; background-position: center center; text-align: center; background: black; text-shadow: -1px 0 gray, 0 1px gray, 1px 0 gray, 0 -1px gray; }
-        #playerbox { position: fixed; backdrop-filter: blur(2vh); border-radius: 1vh; width: 40vh; height: 80vh; top: 50%; left: 50%; margin-top: -40vh; margin-left: -20vh; box-sizing: border-box; display: none; }
-        #query { width: 32vh; height: 10vh; line-height: 10vh; margin-top: 4vh; outline: none; background: none; border: 1px solid lightgray; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: white; font-size: 3vh; box-sizing: border-box; }
-        ::placeholder { color: lightgray; font-size: 5vh; }
-        .menu, .modelist { cursor: pointer; margin: 0 auto; width: 14vh; height: 10vh; line-height: 10vh; font-size: 3vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; float: left; }
-        #likeandlove { margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; font-size: 5vh; box-sizing: border-box; }
-        #menubar { width: 42vh; height: 10vh; line-height: 10vh; display: block; margin-left: -5vh; }
-        #like, #love { font-size: 5vh; }
-        #mode { margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; display: block; text-align: center; text-align-last: center; border: 0; appearance: none; outline: none; background: none; color: lightgray; font-size: 5vh; box-sizing: border-box; cursor: pointer; overflow: hidden; }
-        #modebar { width: 70vh; height: 10vh; line-height: 10vh; display: block; margin-left: -19vh; }
-        .modeselect { color: blue; font-size: 5vh; }
-        #music { margin: 0 auto; display: none; height: 0; }
-        #circle { margin: 0 auto; width: 32vh; height: 32vh; line-height: 32vh; border-radius: 32vh; font-size: 8vh; color: lightgray; background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: cover; background-position: center center; border: 0.1vh solid lightgray; display: block; box-shadow: 0 0 2vh darkgray; box-sizing: border-box; outline: none; }
-        .stop { border-color: green!important; box-shadow: 0 0 2vh darkseagreen!important; }
-        #infoline { margin: 0 auto; width: 30vh; height: 6vh; line-height: 6vh; color: white; font-size: 3vh; overflow: hidden; white-space: nowrap; box-sizing: border-box; position: absolute; left: 50%; margin-left: -15vh; top: 50%; margin-top: -3vh; cursor: pointer; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
-        #info { display: inline-block; }
-        #next { cursor: pointer; margin: 0 auto; width: 32vh; height: 10vh; line-height: 10vh; margin-bottom: 4vh; font-size: 5vh; border: 1px solid lightgray; border-radius: 1vh; background: none; color: lightgray; box-shadow: 0 0 2vh gray; box-sizing: border-box; }
+        #playerbox { position: fixed; backdrop-filter: blur(2vh); border-radius: 1vh; width: 40vh; height: 40vh; top: 50%; left: 50%; margin-top: -20vh; margin-left: -20vh; box-sizing: border-box; border-radius: 40vh; display: none; }
+        .menuline { width: 12vh; height: 4vh; margin: 0 auto; line-height: 4vh; font-size: 2vh; cursor: pointer; margin: 0 auto; position: absolute; border: none; color: lightgray; box-sizing: border-box; }
+        #query { width: 12vh; height: 4vh; line-height: 4vh; margin-top: 2vh; margin-left: -6vh; outline: none; background: none; text-align: center; color: white; }
+        ::placeholder { color: lightgray; font-size: 2vh; }
+        #like { transform: rotate(-45deg); margin-top: 6vh; margin-left: 2vh; }
+        #love { transform: rotate(45deg); margin-top: 6vh; margin-left: 26vh; }
+        #share { transform: rotate(-90deg); margin-top: 18vh; margin-left: -2vh; }
+        #list { transform: rotate(90deg); margin-top: -14vh; margin-left: 30vh; }
+        #prev { transform: rotate(45deg); margin-top: -2vh; margin-left: 2vh; }
+        #next { transform: rotate(-45deg); margin-top: -2vh; margin-left: 26vh; }
         .like, .love { color: red!important; }
         .unlike, .unlove { color: lightgray!important; }
+        #mode { margin: 0 auto; margin-top: 2vh; margin-left: 14vh; width: 12vh; height: 4vh; line-height: 4vh; display: block; text-align: center; text-align-last: center; appearance: none; outline: none; background: none; color: lightgray; box-sizing: border-box; cursor: pointer; overflow: hidden; }
+        #modebar { width: 20vh; height: 4vh; line-height: 4vh; display: block; margin-left: -4vh; }
+        .menu, .modelist { cursor: pointer; margin: 0 auto; width: 4vh; height: 4vh; line-height: 4vh; font-size: 1vh; border: 0; color: lightgray; display: inline-block; box-sizing: border-box; float: left; }
+        .modeselect { color: blue; font-size: 3vh; }
+        #music { margin: 0 auto; display: none; height: 0; }
+        #circle { margin: 0 auto; margin-top: 8vh; width: 24vh; height: 24vh; line-height: 24vh; border-radius: 24vh; font-size: 4vh; color: lightgray; background-image: url(); background-repeat: no-repeat; background-attachment: local; background-size: cover; background-position: center center; border: 0.1vh solid lightgray; display: block; box-shadow: 0 0 2vh darkgray; box-sizing: border-box; outline: none; }
         .circlerotate { animation: rotateright 10s linear infinite; animation-play-state: paused; }
+        .stop { border-color: green!important; box-shadow: 0 0 2vh darkseagreen!important; }
+        #infoline { margin: 0 auto; width: 20vh; height: 4vh; line-height: 4vh; color: white; overflow: hidden; white-space: nowrap; box-sizing: border-box; position: absolute; left: 50%; margin-left: -10vh; top: 50%; margin-top: -2vh; cursor: pointer; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; font-size: 2vh; }
+        #info { display: inline-block; }
         #passwordbox { position: absolute; top:0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(3vh); display: none; }
-        #password { position: absolute; top: 50%; margin-top: -5vh; left: 50%; margin-left: -16vh; width: 32vh; height: 10vh; line-height: 10vh; outline: none; background: none; border: 1px solid lightgray; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: white; font-size: 3vh; box-sizing: border-box; }
+        #password { position: absolute; top: 50%; margin-top: -2vh; left: 50%; margin-left: -12vh; width: 24vh; height: 4vh; line-height: 4vh; outline: none; background: none; border: 1px solid lightgray; box-shadow: 0 0 2vh gray; border-radius: 1vh; text-align: center; color: white; font-size: 2vh; box-sizing: border-box; }
+        #musiclist { position: absolute; margin: 0 auto; margin-top: -24vh; margin-left: 8vh; width: 24vh; height: 24vh; line-height: 4vh; border-radius: 24vh; font-size: 2vh; color: white; overflow-y: scroll; scrollbar-width: none;  backdrop-filter: blur(3vh); display: none; }
+        #musiclist .music { margin: 0 auto; width: 20vh; height: 4vh; line-height: 4vh; font-size: 2vh; white-space: nowrap; overflow-x: scroll; scrollbar-width: none; cursor: pointer; }
+        .musiclist::-webkit-scrollbar, #musiclist .music::-webkit-scrollbar { display: none; }
         .backdrop-blur-in { animation: blur-in 1000ms ease-in-out 0s forwards; }
         .backdrop-blur-out { animation: blur-out 1000ms ease-in-out 0s forwards; }
         @keyframes rotateright {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         @keyframes blur-in {
-            from {
-                backdrop-filter: blur(0);
-            }
-            to {
-                backdrop-filter: blur(2vh);
-            }
+            from { backdrop-filter: blur(0); }
+            to { backdrop-filter: blur(2vh); }
         }
         @keyframes blur-out {
-            from {
-                backdrop-filter: blur(2vh);
-            }
-            to {
-                backdrop-filter: blur(0);
-            }
+            from { backdrop-filter: blur(2vh); }
+            to { backdrop-filter: blur(0); }
         }
     </style>
 </head>
 <body>
     <div id="playerbox">
-        <input id="query" type="text" placeholder="⌕" />
-        <div id="likeandlove"><div id="menubar">
-            <span class="menu" id="like">✧</span>
-            <span class="menu" id="share">⎘</span>
-            <span class="menu" id="love">✦</span>
-        </div></div>
+        <input class="menuline" id="query" type="text" placeholder="⌕" />
+        <div class="menuline" id="like">✧</div>
+        <div class="menuline" id="share">⎘</div>
+        <div class="menuline" id="love">✦</div>
         <div id="circle"></div>
         <div id="infoline">
             <span id="info"></span>
         </div>
-        <div id="mode"><div id="modebar">
+        <div id="musiclist"></div>
+        <div class="menuline" id="list">▤</div>
+        <div class="menuline" id="prev">⬋</div>
+        <div class="menuline" id="next">⬊</div>
+        <div class="menuline" id="mode"><div id="modebar">
             <span class="modelist">✧</span>
             <span class="modelist">✦</span>
             <span class="modelist">✩</span>
             <span class="modelist">✧</span>
             <span class="modelist">✦</span>
         </div></div>
-        <div id="next">⌘</div>
         <audio id="music" autoplay="true"></audio>
     </div>
     <div id="passwordbox">
         <input id="password" type="password" placeholder="" />
     </div>
-    <script src="https://cdn.staticfile.org/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/jshashes/1.0.8/hashes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jshashes/1.0.8/hashes.min.js"></script>
     <script>
         var player = document.getElementById("music");
         var info = document.getElementById("info");
         var circle = document.getElementById("circle");
-        var modemap = {"none": {"icon": "✩", "margin": "-19vh", "idx": 2}, "like": {"icon": "✧", "margin": "-33vh", "idx": 3}, "love": {"icon": "✦", "margin": "-5vh", "idx": 1}};
+        var modemap = {"none": {"icon": "✩", "margin": "-4vh", "idx": 2}, "like": {"icon": "✧", "margin": "-8vh", "idx": 3}, "love": {"icon": "✦", "margin": "0vh", "idx": 1}};
         var imgreq;
         var npreq;
         var recent = [];
@@ -99,7 +94,7 @@
             if (imgreq != null) imgreq.abort();
             imgreq = $.ajax({
                 type: "GET",
-                url: "/i?w=" + w.replace(" - ", " ") + " 封面",
+                url: "/i?w=" + encodeURIComponent(w.replace(" - ", " ")),
                 dataType: "json",
                 success: function(result) {
                     circle.style.backgroundImage = "";
@@ -153,22 +148,24 @@
             }
         }
         var hidemenu = function() {
-            if (hidemenutimer > 0) {
-                hidemenutimer -= 1;
-            } else {
-                if (menustatus == "show") {
-                    tooglemenu("hide");
-                    menustatus = "animate";
-                    $("#playerbox").children().not("#circle, #infoline").css({visibility: "visible", opacity: 1}).animate({opacity: 0}, {duration: 1000, complete: function() {
-                        tooglemenu("hide");
-                    }});
+            if (!$("#playerbox").is(":hover") && !$("#infoline").is(":hover")) {
+                if (hidemenutimer > 0) {
+                    hidemenutimer -= 1;
                 } else {
-                    tooglemenu("hide");
+                    if ($("#musiclist").is(":visible")) {
+                        $("#musiclist").hide();
+                    }
+                    if (menustatus == "show") {
+                        tooglemenu("hide");
+                        menustatus = "animate";
+                        $("#playerbox").children().not("#circle, #infoline").css({visibility: "visible", opacity: 1}).animate({opacity: 0}, {duration: 1000, complete: function() {
+                            tooglemenu("hide");
+                        }});
+                    } else {
+                        tooglemenu("hide");
+                    }
                 }
             }
-            setTimeout(function() {
-                hidemenu();
-            }, 1000);
         }
         var showmenu = function() {
             if (status == "loaded") {
@@ -179,9 +176,19 @@
                         tooglemenu("show");
                     }});
                 } else {
+                    clearanimate();
                     tooglemenu("show");
                 }
             }
+        }
+        var looper = function() {
+            hidemenu();
+            if (player.ended) {
+                newplay();
+            }
+            setTimeout(function() {
+                looper();
+            }, 1000);
         }
         var animate = function() {
             var infowidth = info.clientWidth;
@@ -195,7 +202,7 @@
                     });
                 });
             } else {
-                info.style.marginLeft = "-" + (margin / 2) + "px";
+                $("#info").animate({marginLeft: "-" + (margin / 2) + "px"}, {easing: "linear", duration: drt});
             }
         }
         var clearanimate = function() {
@@ -204,15 +211,19 @@
         }
         var newplay = function(m, s) {
             if (status == "loading") return false;
+            status = "loading";
+            var lastplay = window.location.hash;
             player.pause();
             info.innerText = "";
             info.style.marginLeft = 0;
             info.style.visibility = "hidden";
+            document.getElementById("infoline").style.cursor = "not-allowed";
+            $("#musiclist").hide();
             clearanimate();
             tooglemenu("hide");
-            status = "loading";
             $("#playerbox").fadeOut(500, function() {
                 document.title = "♫";
+                window.history.replaceState("", "", "/");
                 circle.innerText = "♨";
                 circle.style.cursor = "not-allowed";
                 circle.style.backgroundImage = "";
@@ -242,6 +253,7 @@
                         if (result.music) {
                             player.src = "/m/" + result.id + query + "&" + Math.random();
                             info.innerText = result.music;
+                            document.getElementById("infoline").style.cursor = "pointer";
                             document.getElementById("like").classList.remove("like");
                             document.getElementById("like").classList.remove("unlike");
                             document.getElementById("like").classList.add(result.like);
@@ -255,28 +267,26 @@
                             } else if (result.music != recent[recent.length - 1]) {
                                 recent.push(result.music);
                             }
-                            while (recent.length > 1000) {
+                            while (recent.length > 100) {
                                 recent.shift();
                             }
                             localStorage.setItem("recent", JSON.stringify(recent));
+                            window.history.replaceState("", "", lastplay);
                             window.history.pushState("", "", "#" + result.music.replace(" - ", "-"));
                             getimg(result.music);
                         } else {
                             circle.innerText = "✖";
                         }
-                    }).fadeIn(2000, function() {
                         status = "loaded";
+                    }).fadeIn(2000, function() {
                         animate();
                     });
                 },
                 error: function() {
-                    status = "loaded";
+                    status = "error";
                     setTimeout(function() {
-                        newplay(q, s);
+                        newplay(m, s);
                     }, 1000);
-                },
-                complete: function() {
-                    status = "loaded";
                 }
             });
         }
@@ -299,7 +309,7 @@
             } else {
                 newplay();
             }
-            hidemenu();
+            looper();
         }
         window.onhashchange = function() {
             init();
@@ -359,7 +369,7 @@
                 info.style.visibility = "visible";
             }
         }, false);
-        player.addEventListener("paused", function() {
+        player.addEventListener("paused, waiting", function() {
             circle.style.cursor = "pointer";
             circle.style.animationPlayState = "paused";
             circle.classList.remove("stop");
@@ -378,6 +388,12 @@
         }, false);
         document.getElementById("next").addEventListener("click", function() {
             newplay();
+        }, false);
+        document.getElementById("prev").addEventListener("click", function() {
+            var recent = localStorage.getItem("recent")?JSON.parse(localStorage.getItem("recent")):[];
+            if (recent.length > 1) {
+                newplay(recent[recent.length - 2], true);
+            }
         }, false);
         document.body.addEventListener("dblclick", function(event) {
             if (!document.getElementById("query").contains(event.target) && !document.getElementById("password").contains(event.target) && !document.getElementById("circle").contains(event.target)) {
@@ -400,14 +416,22 @@
             if (event.key === "Escape") {
                 event.preventDefault();
                 document.getElementById("passwordbox").style.display = "none";
+                if ($("#musiclist").is(":visible")) {
+                    $("#musiclist").hide();
+                }
             }
         }
         document.onclick = function() {
+            if ($("#musiclist").is(":visible") && !document.getElementById("musiclist").contains(event.target) && !document.getElementById("list").contains(event.target)) {
+                $("#musiclist").hide();
+            }
             if (!document.getElementById("like").contains(event.target) && !document.getElementById("love").contains(event.target)) {
-                showmenu();
+                setTimeout(function() {
+                    showmenu();
+                }, 300);
             }
         }
-        document.getElementById("circle").addEventListener("mouseover", function() {
+        document.getElementById("playerbox").addEventListener("mouseover", function() {
             showmenu();
         }, false);
         document.getElementById("query").addEventListener("keypress", function(event) {
@@ -429,9 +453,9 @@
                 localStorage.setItem("mode", setmode);
                 var margin = "=0";
                 if (element.classList.contains("modeprev")) {
-                    margin = "+=14vh";
+                    margin = "+=4vh";
                 } else if (element.classList.contains("modenext")) {
-                    margin = "-=14vh";
+                    margin = "-=4vh";
                 }
                 if (document.getElementsByClassName("modeselect").length > 0) {
                     document.getElementsByClassName("modeselect")[0].classList.remove("modeselect");
@@ -576,12 +600,29 @@
             document.execCommand("copy");
             document.body.removeChild(copyarea);
             $("#share").queue(function() {
-                document.getElementById("share").style.fontSize = "5vh";
+                $("#share").animate({fontSize: "4vh"}, {easing: "linear", duration: 200});
                 $(this).dequeue();
-            }).delay(500).queue(function() {
-                document.getElementById("share").style.fontSize = "3vh";
+            }).delay(100).queue(function() {
+                $("#share").animate({fontSize: "2vh"}, {easing: "linear", duration: 200});
                 $(this).dequeue();
             });
+        }, false);
+        document.getElementById("list").addEventListener("click", function(event) {
+            if ($("#musiclist").is(":visible")) {
+                $("#musiclist").hide();
+            } else {
+                $("#musiclist").html("");
+                var recent = localStorage.getItem("recent")?JSON.parse(localStorage.getItem("recent")):[];
+                for (var i = 1; i < recent.length; i++) {
+                    var music = $("<div>" + recent[recent.length - i] + "</div>");
+                    music.addClass("music");
+                    music.click(function() {
+                        newplay($(this).text(), true);
+                    });
+                    $("#musiclist").append(music);
+                }
+                $("#musiclist").show();
+            }
         }, false);
     </script>
 </body>
