@@ -46,13 +46,13 @@ def music(m):
     for music in os.listdir(root_dir + '/music'):
         if music.endswith('.mp3'):
             if t == 'like' and likes:
-                if (not q and music in likes) or (q and (q in music.lower() or q.replace(' - ', '-', 1) in music.lower().replace(' - ', '-', 1))):
+                if (not q and music in likes) or (q and (q in music.lower() or q in music.lower().replace(' - ', '-', 1) or q.replace(' - ', '-', 1) in music.lower() or q.replace(' - ', '-', 1) in music.lower().replace(' - ', '-', 1))):
                     musics.append(music)
             elif t == 'love' and loves:
-                if (not q and music in loves) or (q and (q in music.lower() or q.replace(' - ', '-', 1) in music.lower().replace(' - ', '-', 1))):
+                if (not q and music in loves) or (q and (q in music.lower() or q in music.lower().replace(' - ', '-', 1) or q.replace(' - ', '-', 1) in music.lower() or q.replace(' - ', '-', 1) in music.lower().replace(' - ', '-', 1))):
                     musics.append(music)
             else:
-                if not q or (q and s != 'true' and (q in music.lower() or q.replace(' - ', '-', 1) in music.lower().replace(' - ', '-', 1))) or (q and s == 'true' and (q == music[:-4].lower() or q.replace(' - ', '-', 1) == music[:-4].lower().replace(' - ', '-', 1))):
+                if not q or (q and s != 'true' and (q in music.lower() or q in music.lower().replace(' - ', '-', 1) or q.replace(' - ', '-', 1) in music.lower() or q.replace(' - ', '-', 1) in music.lower().replace(' - ', '-', 1))) or (q and s == 'true' and (q == music[:-4].lower() or q == music[:-4].lower().replace(' - ', '-', 1) or q.replace(' - ', '-', 1) == music[:-4].lower() or q.replace(' - ', '-', 1) == music[:-4].lower().replace(' - ', '-', 1))):
                     musics.append(music)
     if musics:
         if not m:
@@ -72,7 +72,10 @@ def music(m):
         else:
             if len(m.split('?')) > 1:
                 m = m.split('?')[0]
-            music_id  = int(m)
+            if m == 'r':
+                music_id = random.randint(0, len(musics) - 1)
+            else:
+                music_id  = int(m)
             if music_id < len(musics):
                 music = musics[music_id]
                 return bottle.static_file(music, root=root_dir + '/music')
@@ -154,6 +157,7 @@ def getbgimg():
         return ''
 
 def geticimg(w):
+    w = w + ' 封面'
     url = "https://image.baidu.com/search/acjson"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0;Win64) AppleWebkit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
@@ -178,7 +182,7 @@ def geticimg(w):
 
 @bottle.route('/i')
 def img():
-    w = bottle.request.query.w.strip()
+    w = urllib.parse.unquote(bottle.request.query.w.strip())
     result = {
         'bgimg': getbgimg(),
         'icimg': geticimg(w)
